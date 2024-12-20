@@ -1,0 +1,29 @@
+﻿<Window x:Class="MyPhotoWorker.WinProgress"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyPhotoWorker"
+        mc:Ignorable="d"
+        Title="Bearbeite ..." SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="ptext" TargetType="Label">
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="20px"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ProgressBar x:Name="pbar" Grid.Column="0" Height="20" Width="400" Margin="15"/>
+        <Label x:Name="pbvalue" Style="{StaticResource ptext}" Grid.Column="1" Width="80" Content="-" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"></Label>
+        <Label Style="{StaticResource ptext}" Grid.Column="2" Content="/" VerticalContentAlignment="Center"></Label>
+        <Label x:Name="pbmax" Style="{StaticResource ptext}" Grid.Column="3" Width="80" Content="-" VerticalContentAlignment="Center"></Label>
+
+    </Grid>
+</Window>

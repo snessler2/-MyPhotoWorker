@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MyPhotoWorker.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ArchivDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Archivverzeichnis auswählen</Value>
+    </Setting>
+    <Setting Name="WorkDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Arbeitsverzeichnis auswählen</Value>
+    </Setting>
+    <Setting Name="LastUsedCamera" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

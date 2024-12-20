@@ -1,0 +1,223 @@
+﻿<Window x:Class="MyPhotoWorker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyPhotoWorker"
+        mc:Ignorable="d"
+        Title="MyPhotoWorker x.x" WindowState="Maximized" MinHeight="540" MinWidth="950" d:DesignWidth="950">
+    <Window.Background>
+        <ImageBrush ImageSource="img/background.jpg"/>
+    </Window.Background>
+    <Window.Resources>
+        <Style x:Key="MyFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <Grid Margin="3 2">
+                            <Rectangle Name="r1" StrokeThickness="1" Stroke="Black" StrokeDashArray="2 2"/>
+                            <Border Name="border" Width="{TemplateBinding ActualWidth}" Height="{TemplateBinding ActualHeight}"  CornerRadius="2" BorderThickness="1" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ShadowStyle">
+            <Setter Property="Control.Foreground" Value="LightGray" />
+        </Style>
+
+        <Style x:Key="InformButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="FontSize" Value="11px"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource MyFocusVisual}" />
+            <Setter Property="Background" >
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                        <GradientStop Color="#FFFFD190" Offset="0.2"/>
+                        <GradientStop Color="Orange" Offset="0.85"/>
+                        <GradientStop Color="#FFFFD190" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+        				BorderThickness="1"
+        				Padding="4,2" 
+        				BorderBrush="DarkGray" 
+        				CornerRadius="3" 
+        				Background="{TemplateBinding Background}">
+                            <Grid >
+                                <ContentPresenter HorizontalAlignment="Center" 
+        	                           VerticalAlignment="Center" Name="contentShadow" 
+        					Style="{StaticResource ShadowStyle}">
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform X="1.0" Y="1.0" />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF4788c8" />
+                                <Setter Property="Foreground" Value="#FF4788c8" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" >
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1" >
+                                            <GradientStop Color="#FFFFD190" Offset="0.35"/>
+                                            <GradientStop Color="Orange" Offset="0.95"/>
+                                            <GradientStop Color="#FFFFD190" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter TargetName="content" Property="RenderTransform" >
+                                    <Setter.Value>
+                                        <TranslateTransform Y="1.0" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#FF282828" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Opacity" Value="0.7" />
+                                <Setter Property="Foreground" Value="Gray" />
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="ui_taskitem" ProgressState="Normal" ProgressValue="0"/>
+        <!--<TaskbarItemInfo ProgressState="Indeterminate" />-->
+    </Window.TaskbarItemInfo>
+    <!--<TabControl>
+        <TabItem Header="Von Kameras">-->
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <!--<MenuItem Header="_Help">
+                <MenuItem Header="_Ansicht" >
+                    <RadioButton IsChecked="True">Klein</RadioButton>
+                    <RadioButton>Groß</RadioButton>
+                </MenuItem>
+                <MenuItem Header="_Info" />
+            </MenuItem>-->
+            <MenuItem Header="_Archiv">
+                <MenuItem Header="Archivverzeichnis auswählen" Click="MenuItem_Click_1" />
+                <MenuItem Header="Archivverzeichnis öffnen" Click="MenuItem_Click_2" />
+            </MenuItem>
+            <MenuItem Header="_Einstellungen" Click="MenuItem_Click" />
+        </Menu>
+        <TextBox DockPanel.Dock="Bottom" x:Name="ui_txt_message" Height="20" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" Background="{x:Null}" />
+        <StackPanel DockPanel.Dock="Left" >
+
+            <!--<TextBox x:Name="ui_txt_filefound" Text="-" FontFamily="Arial" BorderThickness="0" Background="{x:Null}" />-->
+            <!--<MediaElement x:Name="ui_media_last" Height="200"/>-->
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Right" Margin="0,0,0,0">
+        </StackPanel>
+        <DockPanel >
+            <StackPanel DockPanel.Dock="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label x:Name="label3" Content="Arbeitsordner (Kamerabilder):" Foreground="{DynamicResource {x:Static SystemColors.HotTrackBrushKey}}" FontWeight="Bold" Padding="5"/>
+                        <TextBox x:Name="ui_txt_workdir" Width="500" Text="unbekannt" FontSize="16" FontWeight="Bold" />
+                        <Button x:Name="ui_btn_workdir" Content="..." Width="30" Click="ui_btn_workdir_Click"/>
+                        <Button x:Name="ui_btn_openworkdir" Width="30" Click="ui_btn_openworkdir_Click">
+                            <Image Height="20" Source="img\explorer24.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Expander Header="Manuelle Umbenennung" BorderThickness="1,1,1,5" Background="#FF5192BA" BorderBrush="#FF061168" >
+                    <StackPanel>
+                        <GroupBox Header="Umbenennungsregeln">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Label Grid.Column="0" Content="Namensformat Jahr:"/>
+                                <ComboBox x:Name="cbx_jahr" Grid.Column="1" VerticalAlignment="Center"/>
+                                <Label Grid.Column="2" Content="Monat:"/>
+                                <ComboBox x:Name="cbx_monat" Grid.Column="3" VerticalAlignment="Center" />
+                                <Label Grid.Column="4" Content="Tag:"/>
+                                <ComboBox x:Name="cbx_tag" Grid.Column="5" VerticalAlignment="Center" />
+                                <Label Grid.Column="6" Content="Stunde:"/>
+                                <ComboBox x:Name="cbx_stunde" Grid.Column="7" VerticalAlignment="Center" />
+                                <Label Grid.Column="8" Content="Minute:"/>
+                                <ComboBox x:Name="cbx_minute" Grid.Column="9" VerticalAlignment="Center" />
+                                <CheckBox x:Name="ckb_zaehler" Grid.Column="10" Margin="5,0,0,0" VerticalAlignment="Center">Zähler</CheckBox>
+                                <CheckBox x:Name="ckb_oldname" Grid.Column="11" Margin="5,0,0,0" VerticalAlignment="Center" IsChecked="True" >Alter Name</CheckBox>
+                                <CheckBox x:Name="ckb_revno" Grid.Column="12" Margin="5,0,0,0" VerticalAlignment="Center" >Absteigender Zähler</CheckBox>
+                            </Grid>
+                        </GroupBox>
+                        <Button x:Name="btn_manfilerename" Style="{StaticResource InformButton}" Content="Vorschau neuer Namen" Click="ManFileRename_Click"/>
+                    </StackPanel>
+                </Expander>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="read_workdir" Style="{StaticResource InformButton}" Content="Arbeitsordner neu einlesen" Click="read_workdir_Click"/>
+                    <Button x:Name="FileRename" Style="{StaticResource InformButton}" Content="Umbenennen" Click="FileRename_Click"/>
+                    <Button x:Name="ui_btn_movetoarchiv" Style="{StaticResource InformButton}" Content="Dateien im Archiv ablegen" Click="ui_btn_movetoarchiv_Click"/>
+                    <Button x:Name="ui_btn_iptcwrite" IsEnabled="False" Style="{StaticResource InformButton}" Content="IPTC schreiben" Click="ui_btn_iptcwrite_Click"/>
+                    <CheckBox x:Name="ui_chk_showall" VerticalContentAlignment="Center" Margin="5,0,0,0" Checked="ui_chk_showall_Checked" Unchecked="ui_chk_showall_Unchecked">Alle Infos anzeigen</CheckBox>
+                    <CheckBox x:Name="ui_chk_oldname" VerticalContentAlignment="Center" Margin="5,0,0,0">Alte Namen anhängen</CheckBox>
+                </StackPanel>
+            </StackPanel>
+            <DataGrid x:Name="ui_data_allfiles" ItemsSource="{Binding}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" LoadingRow="DataGrid_LoadingRow" Background="{x:Null}" FontWeight="Bold" FontSize="14">
+                <!--<DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        -->
+                <!--<Setter Property="Background" Value="LightBlue" />-->
+                <!--
+                        <Setter Property="Background" Value="{Binding Converter={StaticResource HighlightConverter}}" />
+                    </Style>
+                </DataGrid.RowStyle>-->
+            </DataGrid>
+            <!--<DataGrid ItemsSource="{Binding}" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" Background="{x:Null}"/>-->
+        </DockPanel>
+    </DockPanel>
+    <!--</TabItem>
+        <TabItem Header="Helper">
+
+        </TabItem>
+    </TabControl>-->
+</Window>
